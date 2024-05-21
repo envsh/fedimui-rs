@@ -1,7 +1,7 @@
 package main
 
 /*
-
+#include <stdint.h>
 
 #cgo CFLAGS: -I${SRCDIR}/target/debug
 #cgo LDFLAGS: -Wl,-rpath,${SRCDIR}/target/debug
@@ -12,10 +12,41 @@ package main
 // #include <test.h>
 
 extern void runui();
+extern void ffipxygocxrs(uintptr_t, uintptr_t);
+extern void ffipxyrscxgoset(void*);
+extern void ffipxyrscxgo();
 */
 import "C"
+import (
+	"encoding/json"
+	"log"
+	"runtime"
+	"time"
+	"unsafe"
+
+	"github.com/kitech/gopp"
+)
+
+//export ffipxyrscxgo
+func ffipxyrscxgo(v unsafe.Pointer) {
+	log.Println("hehehhee", v, time.Now())
+}
+
+var gortpin = runtime.Pinner{}
+
+func init() {
+	C.ffipxyrscxgoset(C.ffipxyrscxgo)
+}
 
 func main() {
+	var data = map[string]any{"cmd": "gosss测试1234$"}
+	bcc, err := json.Marshal(data)
+	gopp.ErrPrint(err)
+	var s = string(bcc)
+	var pp = uintptr(unsafe.Pointer(&s))
+	// gortpin.Pin(pp)
+	C.ffipxygocxrs(0, C.uintptr_t(pp))
+	gopp.Forever()
 	C.runui()
 }
 
