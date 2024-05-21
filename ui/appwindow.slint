@@ -24,10 +24,11 @@ component UserInfo inherits  TouchArea {
             Text {text: "hhhh222";}
             Text {text: "hhhh333";}
         }
-    }    
+    }
 }
 
-component RoomItem inherits TouchArea {
+component RoomItemui inherits TouchArea {
+
     HorizontalBox {
         Image {}
         VerticalBox {
@@ -42,7 +43,119 @@ component RoomItem inherits TouchArea {
     }
 }
 
+component RoomListBottom inherits TouchArea {
+    HorizontalBox {
+        Button {text: "fff111";}
+        Button {text: "fff222";}
+        Button {text: "fff333";}
+        Button {text: "fff444";}
+        Button {text: "fff555";}
+    }
+}
+
+component MessageListHead inherits TouchArea {
+    in-out property <int> msgcnt;
+
+    HorizontalBox {
+        Button {
+            text: "btn111";
+        }
+        Text {text: "ttt呵呵222";}
+        Text {text: "ttt呵呵ccc"+msgcnt;}
+        Button {
+            text: "btn222";
+        }
+        Button {
+            text: "btn333";
+        }
+        Button {
+            text: "btn444";
+        }
+        Button {
+            text: "btn555";
+        }
+    }
+}
+
+component MessageListItemui inherits TouchArea {
+    in-out property <string> msgtm;
+    in-out property <string> msgchan;
+    in-out property <string> msguser;
+    in-out property <string> msgtext;
+
+    HorizontalBox {
+        Image {}
+        Text {text: "ttt呵呵111";}
+        Text {text: "ttt呵呵222";}
+        Text {text: "ttt呵呵333";}
+        Text {text: msgchan;}
+        Text {text: "ttt呵呵555";}
+        Image {}
+    }
+}
+
+component MessageListTail inherits TouchArea {
+    in-out property<string> iptval: "nam要m";
+    in-out property <string> selfile;
+
+    HorizontalBox {
+        Image {}
+        Image {}
+        LineEdit {
+            text: iptval;
+        }
+        Button {
+            text: "btn111";
+        }
+        Image {}
+    }
+}
+
 export component AppWindow inherits Window {
+    in-out property <string> usericon;
+    in-out property <string> username;
+    in-out property <string> olnstatus;
+
+    in property <[[string]]> rooms;
+    in property <[string]> columns;
+    in property <[[string]]> messages;
+
+    callback justrunafunc();
+
+    messages: [["ffff"],["gggggg"], ["hhhhhhh"], ["iiiiiii"], ["jjjjjjjj"], ["kkkkkkkk"], ["lllllllll"],["mmmmmmmm"],["nnnnnnnnnn"]];
+
+    HorizontalBox {
+        VerticalBox {
+            UserInfo {
+
+            }
+
+            ListView {
+                for v in root.messages : RoomItemui {
+                    
+                }
+            }
+
+            RoomListBottom {}
+        }
+
+        Splitter {}
+
+        VerticalBox {
+            MessageListHead {
+                msgcnt: messages.length;
+            }
+            ListView {
+                for v in root.messages : MessageListItemui {
+                    msgchan:  v[0];
+                }
+            }
+            MessageListTail {}
+        }
+    }
+}
+
+component AppWindow2 inherits Window {
     in-out property<int> counter: 42;
     in-out property<string> fdname: "nammm";
 
@@ -56,7 +169,7 @@ export component AppWindow inherits Window {
         UserInfo {}
 
         ListView {
-            for r in  root.values :  RoomItem{}
+            for r in  root.values :  RoomItemui{}
         }
         
 

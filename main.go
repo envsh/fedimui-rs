@@ -50,14 +50,9 @@ func ffipxygocxrswrap(v unsafe.Pointer) {
 
 func Main() {
 
-	var data = map[string]any{"cmd": "gosss测试1234$"}
-	bcc, err := json.Marshal(data)
-	gopp.ErrPrint(err)
-	var s = string(bcc)
-	var pp = uintptr(unsafe.Pointer(&s))
-	// gortpin.Pin(pp)
-	C.ffipxygocxrs(0, C.uintptr_t(pp))
-	gopp.Forever()
+	ffipxygocxrswrap(nil)
+
+	// gopp.Forever()
 	C.runui()
 }
 

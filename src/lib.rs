@@ -121,32 +121,32 @@ pub fn runui() {
 fn mainui() -> Result<(),slint::PlatformError> {
     let ui = AppWindow::new()?;
 
-    ui.on_request_increase_value({
-        let ui_handle = ui.as_weak();
-        move || {
-            let ui = ui_handle.unwrap();
-            ui.set_counter(ui.get_counter() + 2);
-            let cnt = ui.get_counter();
-            let cntstr = cnt .to_string();
-            let pfx : slint::SharedString = "nammme".into();
-            ui.set_fdname( pfx + &cntstr);
-        }
-    });
-    ui.on_justrunafunc({
-        let ui_handle = ui.as_weak();
-        move || {
-            let ui = ui_handle.unwrap();
-            println!("ffffff");
-            // ui.set_counter(ui.get_counter() + 2);
-            // let cnt = ui.get_counter();
-            // let cntstr = cnt .to_string();
-            // let pfx : slint::SharedString = "nammme".into();
-            // ui.set_fdname( pfx + &cntstr);
-        }
-        // println("ffff");
-    });
+    // ui.on_request_increase_value({
+    //     let ui_handle = ui.as_weak();
+    //     move || {
+    //         let ui = ui_handle.unwrap();
+    //         ui.set_counter(ui.get_counter() + 2);
+    //         let cnt = ui.get_counter();
+    //         let cntstr = cnt .to_string();
+    //         let pfx : slint::SharedString = "nammme".into();
+    //         ui.set_fdname( pfx + &cntstr);
+    //     }
+    // });
+    // ui.on_justrunafunc({
+    //     let ui_handle = ui.as_weak();
+    //     move || {
+    //         let ui = ui_handle.unwrap();
+    //         println!("ffffff");
+    //         // ui.set_counter(ui.get_counter() + 2);
+    //         // let cnt = ui.get_counter();
+    //         // let cntstr = cnt .to_string();
+    //         // let pfx : slint::SharedString = "nammme".into();
+    //         // ui.set_fdname( pfx + &cntstr);
+    //     }
+    //     // println("ffff");
+    // });
 
-    ui.run();
+    let _ = ui.run();
     Ok(())
 }
 
