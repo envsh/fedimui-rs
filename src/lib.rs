@@ -53,6 +53,10 @@ pub fn cstrfromu8ptr(ptr :*const u8, len: usize) -> &'static str {
 #[no_mangle]
 pub extern "C" 
 fn ffipxygocxrs(cclen: usize, jscc : *const gostring) -> SJResult<()> {
+    if true {
+        return  Ok(());
+    }
+
     unsafe {
         // let s = std::str::from_utf8((*jscc).ptr);
         let xs = cstrfromu8ptr((*jscc).ptr, (*jscc).len);

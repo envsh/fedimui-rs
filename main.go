@@ -1,4 +1,4 @@
-package main
+package nulogic
 
 /*
 #include <stdint.h>
@@ -38,7 +38,18 @@ func init() {
 	C.ffipxyrscxgoset(C.ffipxyrscxgo)
 }
 
-func main() {
+func ffipxygocxrswrap(v unsafe.Pointer) {
+	var data = map[string]any{"cmd": "gosss测试1234$"}
+	bcc, err := json.Marshal(data)
+	gopp.ErrPrint(err)
+	var s = string(bcc)
+	var pp = uintptr(unsafe.Pointer(&s))
+	// gortpin.Pin(pp)
+	C.ffipxygocxrs(0, C.uintptr_t(pp))
+}
+
+func Main() {
+
 	var data = map[string]any{"cmd": "gosss测试1234$"}
 	bcc, err := json.Marshal(data)
 	gopp.ErrPrint(err)
