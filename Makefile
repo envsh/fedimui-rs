@@ -1,4 +1,4 @@
-ANDDIR=/usr/local/Caskroom/android-ndk/26d/AndroidNDK11579264.app/Contents/NDK/toolchains/llvm/prebuilt/darwin-x86_64
+NDKDIR=/usr/local/Caskroom/android-ndk/26d/AndroidNDK11579264.app/Contents/NDK/toolchains/llvm/prebuilt/darwin-x86_64
 
 all: rs go
 
@@ -24,13 +24,15 @@ rsdland:
 	rustup target add armv7-linux-androideabi
 
 rsbdand:
-	cargo ndk -t armeabi-v7a build --debug
-	# otool -L target/armv7-linux-androideabi/debug/libmy_project.so
+	cargo ndk -t armeabi-v7a build
+	# otool -L target/armv7-linux-androideabi/debug/libfedimuirs.so
 
 andapk:
 	mkdir -p jniLibs
-	cp target/armv7-linux-androideabi/debug/libmy_project.so jniLibs/
-	cp fedimui.rs.so jniLibs/libfedimui.go.so
+	cp target/armv7-linux-androideabi/debug/libfedimuirs.so jniLibs/
+	cp fedimuigo.so jniLibs/libfedimuigo.so
 	
-	PATH=$(ANDDIR)/bin:$(PATH) llvm-strip -S jniLibs/libmy_project.so
+	$(NDKDIR)/bin/llvm-strip -S jniLibs/libfedimuirs.so
+	$(NDKDIR)/bin/llvm-strip -S jniLibs/libfedimuigo.so
 	ls -lh jniLibs/
+	$(NDKDIR)/bin/llvm-objdump -x jniLibs/libfedimuirs.so |grep NEEDED

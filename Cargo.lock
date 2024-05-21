@@ -1268,6 +1268,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "fedimuirs"
+version = "0.1.0"
+dependencies = [
+ "libc",
+ "serde_json",
+ "slint",
+ "slint-build",
+]
+
+[[package]]
 name = "femtovg"
 version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2406,16 +2416,6 @@ checksum = "87dfd01fe195c66b572b37921ad8803d010623c0aca821bea2302239d155cdae"
 dependencies = [
  "adler",
  "simd-adler32",
-]
-
-[[package]]
-name = "my-project"
-version = "0.1.0"
-dependencies = [
- "libc",
- "serde_json",
- "slint",
- "slint-build",
 ]
 
 [[package]]

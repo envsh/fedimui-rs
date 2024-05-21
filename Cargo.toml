@@ -9,7 +9,7 @@ crate-type = ["cdylib"]
 [package]
 # crate-type = ["rlib", "cdylib"]
 # crate-type =  ["cdylib"]
-name = "my-project"
+name = "fedimuirs"
 version = "0.1.0"
 authors = ["envsh <yatsen21@outlook.com>"]
 edition = "2021"

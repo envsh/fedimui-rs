@@ -6,7 +6,7 @@ package nulogic
 #cgo CFLAGS: -I${SRCDIR}/target/armv7-linux-androideabi/debug
 #cgo LDFLAGS: -Wl,-rpath,${SRCDIR}/target/armv7-linux-androideabi/debug
 #cgo LDFLAGS: -L${SRCDIR}/target/armv7-linux-androideabi/debug
-#cgo LDFLAGS: -lmy_project
+#cgo LDFLAGS: -lfedimuirs
 // #cgo LDFLAGS: -l
 
 */
