@@ -3,14 +3,6 @@ package nulogic
 /*
 #include <stdint.h>
 
-#cgo CFLAGS: -I${SRCDIR}/target/debug
-#cgo LDFLAGS: -Wl,-rpath,${SRCDIR}/target/debug
-#cgo LDFLAGS: -L${SRCDIR}/target/debug
-#cgo LDFLAGS: -lmy_project
-// #cgo LDFLAGS: -l
-
-// #include <test.h>
-
 extern void runui();
 extern void ffipxygocxrs(uintptr_t, uintptr_t);
 extern void ffipxyrscxgoset(void*);
