@@ -1,0 +1,25 @@
+# [lib]
+# name         = "myproject"
+# crate-type   = ["rlib", "cdylib"]
+
+[lib]
+# crate-type = ["cdylib", "staticlib"]
+crate-type = ["cdylib"]
+
+[package]
+# crate-type = ["rlib", "cdylib"]
+# crate-type =  ["cdylib"]
+name = "my-project"
+version = "0.1.0"
+authors = ["envsh <yatsen21@outlook.com>"]
+edition = "2021"
+build = "build.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+slint = "1.6"
+libc = "0.2.85"
+
+[build-dependencies]
+slint-build = "1.6"
