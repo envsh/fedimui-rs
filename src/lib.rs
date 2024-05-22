@@ -117,6 +117,32 @@ pub fn runui() {
     // println!("{}",res.unwrap());
 }
 
+// demo
+// #[no_mangle]
+// fn android_mainrs(app: slint::android::AndroidApp) {
+//     slint::android::init(app).unwrap();
+
+//     // ... rest of your code ...
+//     slint::slint!{
+//         export component MainWindow inherits Window {
+//             Text { text: "Hello World"; }
+//         }
+//     }
+//     MainWindow::new().unwrap().run().unwrap();
+// }
+
+#[no_mangle]
+fn android_mainrs(app: slint::android::AndroidApp) {
+    slint::android::init(app).unwrap();
+
+    mainui();
+}
+
+// #[no_mangle]
+// fn android_main(app: slint::android::AndroidApp) {
+//     android_mainrs(app);
+// }
+
 // fn mainui() -> Result<(), slint::PlatformError|> {
 fn mainui() -> Result<(),slint::PlatformError> {
     let ui = AppWindow::new()?;
