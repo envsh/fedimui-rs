@@ -1,5 +1,15 @@
 package nulogic
 
+import (
+	"encoding/json"
+	"log"
+	"runtime"
+	"time"
+	"unsafe"
+
+	"github.com/kitech/gopp"
+)
+
 /*
 #include <stdint.h>
 
@@ -10,42 +20,10 @@ extern void ffipxyrscxgo();
 extern void android_mainrs(void*);
 */
 import "C"
-import (
-	"encoding/json"
-	"log"
-	mrand "math/rand"
-	"runtime"
-	"time"
-	"unsafe"
-
-	"github.com/kitech/gopp"
-)
-
-// https://developer.android.com/ndk/samples/sample_na?hl=zh-cn
-// https://github.com/golang/go/wiki/GoArm
-// https://www.cnblogs.com/kn-zheng/p/17004977.html
-
-// tried Java_com_ncorti_kotlin_template_app_NativeLib_sayHello and Java_com_ncorti_kotlin_template_app_NativeLib_sayHello__
 
 //export ffipxyrscxgo
 func ffipxyrscxgo(v unsafe.Pointer) {
 	log.Println("hehehhee", v, time.Now())
-}
-
-// export32bit Java_com_ncorti_kotlin_template_app_NativeLib_sayHello
-//
-//	func sayHello() int {
-//		return mrand.Int()
-//	}
-
-//export Java_com_ncorti_kotlin_template_app_NativeLib_sayHello
-func Java_com_ncorti_kotlin_template_app_NativeLib_sayHello() int {
-	return mrand.Int()
-}
-
-//export android_main
-func android_main(a unsafe.Pointer) {
-	C.android_mainrs(a)
 }
 
 var gortpin = runtime.Pinner{}

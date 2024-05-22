@@ -7,11 +7,11 @@ rs:
 
 go:
 	go build
-	cd app && go build -o ../mainapp
+	cd appgo && go build -o ../mainapp
 
 ####### depcreated
 goso:
-	cd app && go build -o ../mainapp.so -buildmode=c-shared
+	cd appgo && go build -o ../mainapp.so -buildmode=c-shared
 
 ####### see app/buildandroid.sh
 andso:

@@ -1,18 +1,3 @@
-#[no_mangle]
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
 
 extern crate libc;
 use libc::c_char;
@@ -117,27 +102,14 @@ pub fn runui() {
     // println!("{}",res.unwrap());
 }
 
-// demo
-// #[no_mangle]
-// fn android_mainrs(app: slint::android::AndroidApp) {
-//     slint::android::init(app).unwrap();
 
-//     // ... rest of your code ...
-//     slint::slint!{
-//         export component MainWindow inherits Window {
-//             Text { text: "Hello World"; }
-//         }
-//     }
-//     MainWindow::new().unwrap().run().unwrap();
-// }
-
+#[cfg(target_os = "android")]
 #[no_mangle]
 fn android_mainrs(app: slint::android::AndroidApp) {
     slint::android::init(app).unwrap();
 
     mainui();
 }
-
 // #[no_mangle]
 // fn android_main(app: slint::android::AndroidApp) {
 //     android_mainrs(app);

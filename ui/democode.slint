@@ -1,0 +1,78 @@
+
+import { Button, VerticalBox, GridBox, CheckBox, ComboBox, Switch, Spinner, LineEdit, ListView, AboutSlint, ProgressIndicator, SpinBox, HorizontalBox, StandardListView } from "std-widgets.slint";
+
+
+export component AppWindow2 inherits Window {
+    in-out property<int> counter: 42;
+    in-out property<string> fdname: "nammm";
+
+    in property <[string]> columns;
+    in property <[[string]]> values;
+
+    callback request-increase-value();
+    callback justrunafunc();
+
+    VerticalBox {
+        // UserInfo {}
+
+        ListView {
+            for r in  root.values :  LineEdit{}
+        }
+        
+
+        Text {
+            text: "Counter: \{root.counter}";
+        }
+        Button {
+            text: "Increase value";
+            clicked => {
+                root.request-increase-value();
+            }
+        }
+        Text {
+            text: "Counter: \{root.fdname}";
+        }
+        Button {
+            text: "justrunafunc";
+            clicked => {
+                root.justrunafunc();
+            }
+        }
+        Path { }
+        ListView { }
+
+
+        GridBox {
+            
+            CheckBox {
+                text: "CheckBox";
+            }
+            ComboBox {
+                model: ["first", "second", "third"];
+            }
+            Button {
+                text: "Button";
+            }
+            Switch {
+                text: "Switch";
+            }
+            Spinner { }
+            LineEdit {
+                text: "LineEdi拖拖拉拉";
+            }
+   
+
+            ProgressIndicator { }
+        }
+
+        // splitter1 := Splitter {
+        //     x: root.width - self.width;
+        //     height: 100%;
+    
+        //     moved => {
+        //         self.x = min(root.width - self.width, max(400px, self.x + self.mouse-x - self.pressed-x));
+        //     }
+        // }
+    }
+    
+}
