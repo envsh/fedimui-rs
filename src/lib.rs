@@ -108,41 +108,28 @@ pub fn runui() {
 fn android_mainrs(app: slint::android::AndroidApp) {
     slint::android::init(app).unwrap();
 
-    mainui();
+    let _ = mainui();
 }
 // #[no_mangle]
 // fn android_main(app: slint::android::AndroidApp) {
 //     android_mainrs(app);
 // }
 
+
 // fn mainui() -> Result<(), slint::PlatformError|> {
 fn mainui() -> Result<(),slint::PlatformError> {
     let ui = AppWindow::new()?;
 
-    // ui.on_request_increase_value({
-    //     let ui_handle = ui.as_weak();
-    //     move || {
-    //         let ui = ui_handle.unwrap();
-    //         ui.set_counter(ui.get_counter() + 2);
-    //         let cnt = ui.get_counter();
-    //         let cntstr = cnt .to_string();
-    //         let pfx : slint::SharedString = "nammme".into();
-    //         ui.set_fdname( pfx + &cntstr);
-    //     }
-    // });
-    // ui.on_justrunafunc({
-    //     let ui_handle = ui.as_weak();
-    //     move || {
-    //         let ui = ui_handle.unwrap();
-    //         println!("ffffff");
-    //         // ui.set_counter(ui.get_counter() + 2);
-    //         // let cnt = ui.get_counter();
-    //         // let cntstr = cnt .to_string();
-    //         // let pfx : slint::SharedString = "nammme".into();
-    //         // ui.set_fdname( pfx + &cntstr);
-    //     }
-    //     // println("ffff");
-    // });
+    ui.global::<varfn>().on_isandroid(|| {
+        eprintln!("magic operation input: {}, os {}", 123, std::env::consts::OS);
+        if std::env::consts::OS == "android" {
+            1
+        }else {
+            0
+        }
+        // eprintln!("magic operation input: {}", value);
+        // value * 2
+    });
 
     let _ = ui.run();
     Ok(())

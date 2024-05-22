@@ -26,7 +26,7 @@ rsdland:
 	# alias of arm64-v8a
 	rustup target add aarch64-linux-android
 
-rsbdand:
+andrs:
 	#cargo ndk -t armeabi-v7a build
 	cargo ndk -t aarch64-linux-android build
 	# otool -L target/armv7-linux-androideabi/debug/libfedimuirs.so
