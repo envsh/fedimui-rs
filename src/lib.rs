@@ -173,19 +173,78 @@ fn uigetmsg2lstmdl(ui : &AppWindow, msg: MessageUist) /*-> &VecModel<MessageUist
     // let mut msg = MessageUist::default();
     // msg.body = "hehehhe".into();
     mdl.push(msg);
-    // mdl.remove(); // VecModel.remove()
+    // mdl.remove(); // VecModel.remove(),insert,push,
     eprintln!("msg2 cnt {} => {}", oc, mdl.row_count());
-    
+    // mdlrc.push(msg); // not work
 
     // mdl.as_weak();
     // return mdl;
+}
+
+fn uigetrom2lstmdl(ui : &AppWindow, msg: GroupchatUist) /*-> &VecModel<MessageUist> */ {
+    let ui_handle = ui.as_weak();
+    let ui2 = ui_handle.unwrap();
+    let mdlrc = ui2.get_rooms2(); 
+    let mdlany = mdlrc.as_any();
+    // let x : ModelRc<MessageUist> = mdlrc;
+    let mdl2 = mdlany.downcast_ref::<VecModel<GroupchatUist>>();
+    let mdl = mdl2.expect("wekkkkkk");
+
+    // mdl.push(v);
+    let oc = mdl.row_count();
+    // eprintln!("columns cnt {}", mdl.row_count());
+    // let mut msg = MessageUist::default();
+    // msg.body = "hehehhe".into();
+    mdl.push(msg);
+    // mdl.remove(); // VecModel.remove(),insert,push,
+    // eprintln!("gc2 cnt {} => {}", oc, mdl.row_count());
+    // mdlrc.push(msg); // not work
+
+    // mdl.as_weak();
+    // return mdl;
+}
+
+// #[derive(Sync)]
+#[derive(Default)]
+struct Somevars {
+    // uip : &'a AppWindow,
+    // uix : slint::Weak<AppWindow>,
+    // mdl : Rc<i32>,
+    uip : usize, // => &AppWindow
+}
+
+static mut gvars : Somevars = Somevars{uip: 0};
+
+fn uiwintouintptr(uir : &AppWindow) -> usize {
+    let n0 = uir as *const AppWindow;
+    let n1 = n0 as *const libc::c_void;
+    let n2 = n1 as usize;
+    return n2;
+}
+fn uintptrtouiwin(v : usize) -> &'static AppWindow {
+    let n1 = v as *const libc::c_void;
+    let n0 = n1 as *const AppWindow as *mut AppWindow;
+    
+    // cast<&AppWindow>(n0)
+    // n0 as &AppWindow
+    let rv = unsafe { &*n0 } ;
+
+    let nv = uiwintouintptr(rv);
+    eprintln!("nv {}", nv);
+    
+    let mut msg = MessageUist::default();
+    msg.body = "hehehhe".into();
+    uigetmsg2lstmdl(rv, msg);
+
+    return rv;
 }
 
 // fn mainui() -> Result<(), slint::PlatformError|> {
 fn mainui() -> Result<(),slint::PlatformError> {
     
     let ui = AppWindow::new()?;
-    let uip = &ui;
+    let uir : &AppWindow = &ui;
+    let uix : slint::Weak<AppWindow> = ui.as_weak();
     // ui.global::<varfn>().set_isandroid(1);
     // eprintln!("magic operation input: {}, os {}", 123, std::env::consts::OS);
     ui.global::<varfn>().set_isandroid(if std::env::consts::OS=="android" {1} else {0});
@@ -193,12 +252,31 @@ fn mainui() -> Result<(),slint::PlatformError> {
     // ui.switchpage();
     ui.global::<varfn>().set_curpage("fffffff".into());
 
+    {
+        let n0 = uir as *const AppWindow;
+        let n1 = n0 as *const libc::c_void;
+        let n2 = n1 as usize;
+        unsafe { gvars.uip = n2; }
+        eprintln!("uip integer {}", n2);
+    }
+    unsafe { eprintln!("uip integer {}", gvars.uip); }
+    unsafe { uintptrtouiwin(gvars.uip); }
+
     // uigetcolumnsmdl(uip);
     // let msglstmdl = uigetmsglstmdl(uip);
     // uigetmsglstmdl(uip);
     let mut msg = MessageUist::default();
     msg.body = "hehehhe".into();
-    uigetmsg2lstmdl(uip, msg);
+    uigetmsg2lstmdl(uir, msg);
+    for i in 0..28 {
+        let mut gco = GroupchatUist::default();
+        gco.name = format!("gcname-{}",i).into();
+        gco.author = format!("gcauth-{}", i).into();
+        gco.gcid = format!("gciddddd-{}", i).into();
+        gco.ctmstr = format!("ctmstr-{}", i).into();
+        gco.lastmsg = format!("lastmsg-{}", i).into();
+        uigetrom2lstmdl(uir, gco);    
+    }
 
     // ui.global::<varfn>().on_isandroid(|| {
     //     eprintln!("magic operation input: {}, os {}", 123, std::env::consts::OS);
@@ -211,7 +289,7 @@ fn mainui() -> Result<(),slint::PlatformError> {
     //     // value * 2
     // });
 
-    ui.show();
+    let _ = ui.show();
 
     let _ = ui.run();
     Ok(())

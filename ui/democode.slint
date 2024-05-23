@@ -1,5 +1,104 @@
 
-import { Button, VerticalBox, GridBox, CheckBox, ComboBox, Switch, Spinner, LineEdit, ListView, AboutSlint, ProgressIndicator, SpinBox, HorizontalBox, StandardListView } from "std-widgets.slint";
+import { Button, VerticalBox, GridBox, CheckBox, ComboBox, Switch, Spinner, LineEdit, ListView, AboutSlint, ProgressIndicator, SpinBox, HorizontalBox, StandardListView,GroupBox, TabWidget } from "std-widgets.slint";
+
+
+component mytabwidget inherits TabWidget {
+    
+}
+
+component stackwidget inherits Rectangle {
+    in-out property <int> curridx : 0;
+    
+
+    gb1 := GroupBox {
+            visible: true;
+            Text {text: "ingrpbox";}
+        }
+
+    le1 := LineEdit {placeholder-text: "hehehhe";}
+
+    function setcurridx2(idx : int) {
+        if idx == 0 {
+            gb1.visible = true;
+            le1.visible = false;
+        }else if idx==1{
+            gb1.visible = false;
+            le1.visible = true;
+        }
+    }
+
+    states [
+        child0 when curridx==0:{
+            
+        }
+    ]
+
+    // states [
+    //     child0 when curridx==0 : {
+    //         gb1.visible: true;
+    //         le1.visible: false;
+    //     }
+    //     child1 when curridx==1 : {
+    //         gb1.visible: false;
+    //         le1.visible: true;
+    //     }
+    // ]
+}
+
+
+
+// component testiii {
+//     tw := TabWidget {
+//         padding: 1px;
+//         visible: false;
+//         // y: root.y - 50px;
+
+//         // Tab {stackwidget{}}
+
+//         tb0 := Tab {
+//             padding: 1px;
+//             title: "000";
+
+//             VerticalLayout {
+//                 padding: 1px;
+//             // LineEdit {}
+//             // LineEdit {}
+//                 // if varfn.isandroid() == 1:  RoomListAndUserInfoui{}
+//                 RoomListAndUserInfoui{}
+//             }
+//         }
+//         Tab {
+//             title: "111";
+//             // message list 主窗口
+//             VerticalLayout {
+//                 padding: 0px;
+//                 MessageListHeadui {
+//                     // msgcnt: messages.length;
+//                 }
+//                 ListView {
+//                     padding: 0px;
+//                     // for v in root.messages : 
+//                     // MessageListItemui {
+//                     //     msgchan:  v[0];
+//                     // }
+                    
+//                 }
+//                 MessageListTailui {}
+//             }
+//         }
+//         Tab {
+//             title: "222";
+//             Button {text: "sssss";}
+//         }
+//         // Tab {
+//         //     title: "333";
+//         //     Button {text: "sssss";}
+//         // }
+        
+//     }
+
+// }
+
 
 
 export component AppWindow2 inherits Window {
