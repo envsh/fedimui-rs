@@ -8,9 +8,9 @@ export global varfn {
     in-out property < [[string]]> rooms;
     in-out property < [[string]]> messages;
 
-    // in-out property <int> isandroid : 0; 
-    pure callback isandroid() -> int;
-
+    in-out property <int> isandroid : 0; 
+    // pure callback isandroid() -> int;
+    in property <string> curpage: "none";
 }
 
 component Splitter inherits TouchArea {
@@ -397,6 +397,36 @@ component testiii {
 
 }
 
+export struct GroupchatUist {
+    gcid : string,
+    name : string,
+    icopath: string,
+    lastmsg: string,
+    ctmstr: string,
+    author: string,
+    val1 : string,
+    val2 : string,
+    val3 : string,
+    val4 : string,
+    val5 : string,
+}
+
+export struct MessageUist {
+    uid : string,
+    title : string,
+    body : string,
+    ctmstr : string,
+    snder : string,
+    chname : string,
+    icopath : string,
+    msgfmt : string,
+    val1 : string,
+    val2 : string,
+    val3 : string,
+    val4 : string,
+    val5 : string,
+}
+
 // macos cupertino, android material, other fluent
 // cosmic 还可以，看看不能用在android上。
 // slint的 material 是设计的最差的。
@@ -407,19 +437,24 @@ export component AppWindow inherits Window {
     in-out property <string> username;
     in-out property <string> olnstatus;
 
-    in property <[[string]]> rooms;
-    in property <[string]> columns;
-    in property <[[string]]> messages;
+    in-out property <[[string]]> rooms : [];
+    in-out property <[string]> columns ;
+    in-out property <[[string]]> messages ;
+    in-out property <[GroupchatUist]> rooms2: [];
+    in-out property <[MessageUist]> messages2: [];
     
-    private property <bool> stkrlui2: false;
+    private property <bool> stkrlui2: true;
     private property <string> curpage: "none";
     private property <string> lastpage: "none";
 
     callback justrunafunc();
 
+    columns: ["111", "222", "333"];
     messages: [["ffff"],["gggggg"], ["hhhhhhh"], ["iiiiiii"], ["jjjjjjjj"], ["kkkkkkkk"], ["lllllllll"],["mmmmmmmm"],["nnnnnnnnnn"],["gggggg"], ["hhhhhhh"], ["iiiiiii"], ["jjjjjjjj"], ["kkkkkkkk"], ["lllllllll"],["mmmmmmmm"],["nnnnnnnnnn"],["gggggg"], ["hhhhhhh"], ["iiiiiii"], ["jjjjjjjj"], ["kkkkkkkk"], ["lllllllll"],["mmmmmmmm"],["nnnnnnnnnn"],["gggggg"], ["hhhhhhh"], ["iiiiiii"], ["jjjjjjjj"], ["kkkkkkkk"], ["lllllllll"],["mmmmmmmm"],["nnnnnnnnnn"]];
 
     padding: 0px;
+    width: 800px;
+    height: 600px;
     VerticalLayout {
         toolbar := HorizontalLayout{
             Button {text: "jjj";}
@@ -450,7 +485,7 @@ export component AppWindow inherits Window {
     lo1 := HorizontalLayout {
         padding: 1px;
 
-        if varfn.isandroid() != 1:  HorizontalLayout {
+        if varfn.isandroid != 1:  HorizontalLayout {
             rlstui := RoomListAndUserInfoui{
             }
         // if varfn.isandroid() != 1:  
@@ -466,6 +501,11 @@ export component AppWindow inherits Window {
                 // tw.width = lo1.width - self.x;
                 // rlstui.width = self.x;
             }
+
+            init => {
+                // lo1.width = (root.width*1)/3;
+                
+            }
         }
     }
 
@@ -474,8 +514,10 @@ export component AppWindow inherits Window {
         min-width: 150px;
         min-height: 50px;
         // width: parent.width - lo1.width;
-        horizontal-stretch: 0.85;
-        vertical-stretch: 0.85;
+        horizontal-stretch: 4; // 重要，可以区分比例
+        vertical-stretch: 1;
+        // background: #bb7f42;
+        // preferred-width: 300px;
 
         // TextInput {text: "iiiiiiiii";}
         // StandardButton {kind: cancel;}
@@ -486,7 +528,7 @@ export component AppWindow inherits Window {
 
         
         // if varfn.isandroid() == 1:  RoomListAndUserInfoui{}
-        if varfn.isandroid() == 1: RoomListAndUserInfoui{
+        if varfn.isandroid == 1: RoomListAndUserInfoui{
             // visible <=> root.stkrlui2;
             states [
                 s1 when root.stkrlui2 == true : {
@@ -499,14 +541,17 @@ export component AppWindow inherits Window {
 
         // right message list
         rgtlo:= VerticalLayout {
-            visible: false;
+            visible: varfn.isandroid==0;
             padding: 0px;
+            
 
             // MessageListHeadui {
             //     msgcnt: messages.length;
             // }
             ListView {
                 padding: 0px;
+            
+
                 for v in root.messages : 
                 MessageListItemui {
                     msgchan:  v[0];
@@ -517,7 +562,11 @@ export component AppWindow inherits Window {
         }
 
         aboutui := GroupBox{
+            visible: false;
             Button {text: "123";}
+        }
+        init => {
+            debug("stkwin init...", varfn.isandroid)
         }
     }
 
@@ -535,10 +584,10 @@ export component AppWindow inherits Window {
     }
 
     states [
-        onosandroid when varfn.isandroid() == 1 : {
+        onosandroid when varfn.isandroid == 1 : {
             // tw.current-index: 0;
         }
-        onpc when varfn.isandroid() != 1 : {
+        onpc when varfn.isandroid != 1 : {
             // tw.current-index: 1;
         }
 
@@ -582,7 +631,7 @@ export component AppWindow inherits Window {
             rgtlo.visible = true;
             //               rlstui2
         } else if curpage == "rlstui2" {
-            if varfn.isandroid() == 1 {
+            if varfn.isandroid == 1 {
                 stkrlui2 = true;
             }else{
                 debug("want show rlstui2, but not android");
@@ -595,8 +644,14 @@ export component AppWindow inherits Window {
 
         }
     }
+
+    function trysplitrate() {
+        
+    }
+
+    // 这个最先调用
     init => {
-        debug("AppWindow inited,"+varfn.isandroid());
+        debug("AppWindow inited,"+varfn.isandroid);
         // if varfn.isandroid() != 1 {
         //     tw.current-index = 1;
         // //     tb0.opacity = 1;
@@ -604,16 +659,23 @@ export component AppWindow inherits Window {
         // }else{
         //     tw.current-index = 0;
         // }
-        if varfn.isandroid() == 1 {
-            stkrlui2 = true;
-            curpage = "rlstui2";
-        }else{
-            stkrlui2 = false;
-            curpage = "msglst";
-        }
         // if varfn.isandroid() == 1 {
+        //     stkrlui2 = false;
+        //     stkrlui2 = true;
+        //     curpage = "rlstui2";
+        // }else{
+        //     stkrlui2 = false;
+        //     curpage = "msglst";
+        // }
+        // debug("hhhhhhee", curpage, varfn.isandroid());
+        // // if varfn.isandroid() == 1 {
 
-        switchstack();
+        // switchstack();
+        // trysplitrate();
+        // stkwin.width = root.width - lo1.width;
+        // stkwin.width = 300px;
+
     }
+    
 }
 

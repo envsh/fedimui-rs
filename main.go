@@ -44,6 +44,10 @@ func ffipxygocxrswrap(v unsafe.Pointer) {
 
 func Main() {
 
+	// if r := recover(); r != nil {
+	// 	println("hhhhh", r)
+	// }
+
 	ffipxygocxrswrap(nil)
 
 	// gopp.Forever()
