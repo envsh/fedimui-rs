@@ -2,6 +2,7 @@ package nulogic
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"runtime"
 	"time"
@@ -42,6 +43,23 @@ func ffipxygocxrswrap(v unsafe.Pointer) {
 	C.ffipxygocxrs(0, C.uintptr_t(pp))
 }
 
+func nonuimain() {
+	type callpxyst struct {
+		Cmd  string   `json:"cmd"`
+		Args []string `json:"args"`
+	}
+	for i := 0; i < 360; i++ {
+		// gopp.SleepSec(3)
+		gopp.SleepMs(300)
+		// time.Sleep(300*time.Millisecond)
+		obj := callpxyst{Cmd: "newmessage", Args: []string{fmt.Sprintf("msgfromgooo%d", i), "a1", "a2"}}
+		scc := gopp.JsonMarshalMust(obj)
+		log.Println(scc)
+		var pp = uintptr(unsafe.Pointer(&scc))
+		C.ffipxygocxrs(0, C.uintptr_t(pp))
+	}
+}
+
 func Main() {
 
 	// if r := recover(); r != nil {
@@ -50,8 +68,9 @@ func Main() {
 
 	ffipxygocxrswrap(nil)
 
+	go nonuimain()
 	// gopp.Forever()
-	C.runui()
+	C.runui() // forever loop
 }
 
 /*

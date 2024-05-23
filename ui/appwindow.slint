@@ -197,6 +197,8 @@ component MessageListItemui inherits Rectangle {
     in-out property <string> msguser;
     in-out property <string> msgtext;
 
+    in-out property <MessageUist> msgrec;
+
     // background: #743734;
     padding: 0px;
     HorizontalLayout {
@@ -235,7 +237,8 @@ component MessageListItemui inherits Rectangle {
             Text {
                 wrap: word-wrap;
 
-                text: "ddttt呵呵111ddttt呵呵111 ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt 呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt 呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111";
+                // text: "ddttt呵呵111ddttt呵呵111 ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt 呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt 呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111ddttt呵呵111";
+                text: msgrec.body;
                 
 
                 // horizontal-alignment: left;
@@ -461,16 +464,17 @@ export component AppWindow inherits Window {
             padding: 0px;
             
 
-            // MessageListHeadui {
-            //     msgcnt: messages.length;
-            // }
+            MessageListHeadui {
+                msgcnt: messages2.length;
+            }
             ListView {
                 padding: 0px;
             
 
-                for v in root.messages : 
+                for v in root.messages2 : 
                 MessageListItemui {
-                    msgchan:  v[0];
+                    // msgchan:  v[0];
+                    msgrec: v;
                 }
                 
             }

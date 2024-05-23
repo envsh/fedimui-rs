@@ -42,9 +42,57 @@ pub fn cstrfromu8ptr(ptr :*const u8, len: usize) -> &'static str {
     }
  }
 
+
+ #[no_mangle]
+ pub extern "C" 
+ fn ffipxygocxrs(cclen: usize, jscc : *const gostring) -> SJResult<()> {
+
+    unsafe {
+        // let s = std::str::from_utf8((*jscc).ptr);
+        let xs = cstrfromu8ptr((*jscc).ptr, (*jscc).len);
+    println!("hhhhh,cclen:{}, len2:{}, str:{}, len3:{},", cclen, (*jscc).len, xs, xs.len());
+    let v: SJValue = serde_json::from_str(xs)?;
+
+    let cmd  = &v["cmd"];
+    // Access parts of the data by indexing with square brackets.
+    println!("Please 呵呵呵 call {} at the number {}", v["cmd"], v["wtev"][0]);
+
+        // why not work???
+        // match v["cmd"] {
+        //     "ping" => {
+
+        //     }
+        // }
+
+        if cmd == "ping"{
+
+        } else if cmd == "newmessage" {
+            let uir = uintptrtouiwin(gvars.uip);
+            let mut msg = MessageUist::default();
+            // msg.body = "msgfromgo".into();
+            let v  = v["args"][0].as_str().unwrap();
+            msg.body = v.into();
+            // uigetmsg2lstmdl(uir, msg);
+            slint::invoke_from_event_loop(move || {
+                pushmsg(msg);
+            });
+        }
+    }
+
+
+    Ok(())
+ }
+
+ fn pushmsg(msg : MessageUist) {
+    unsafe {
+    let uir = uintptrtouiwin(gvars.uip);
+    uigetmsg2lstmdl(uir, msg);
+    }
+ }
+
 #[no_mangle]
 pub extern "C" 
-fn ffipxygocxrs(cclen: usize, jscc : *const gostring) -> SJResult<()> {
+fn ffipxygocxrs_dep(cclen: usize, jscc : *const gostring) -> SJResult<()> {
     if true {
         return  Ok(());
     }
@@ -230,14 +278,19 @@ fn uintptrtouiwin(v : usize) -> &'static AppWindow {
     let rv = unsafe { &*n0 } ;
 
     let nv = uiwintouintptr(rv);
-    eprintln!("nv {}", nv);
+    unsafe {
+    eprintln!("nv {} {} ==? {}", nv == gvars.uip, nv, gvars.uip);
+    }
     
-    let mut msg = MessageUist::default();
-    msg.body = "hehehhe".into();
-    uigetmsg2lstmdl(rv, msg);
+    // let mut msg = MessageUist::default();
+    // msg.body = "hehehhe".into();
+    // uigetmsg2lstmdl(rv, msg);
 
     return rv;
 }
+
+fn dummy(v : usize, msg : MessageUist) { }
+
 
 // fn mainui() -> Result<(), slint::PlatformError|> {
 fn mainui() -> Result<(),slint::PlatformError> {
@@ -252,10 +305,12 @@ fn mainui() -> Result<(),slint::PlatformError> {
     // ui.switchpage();
     ui.global::<varfn>().set_curpage("fffffff".into());
 
+    let uih : usize;
     {
         let n0 = uir as *const AppWindow;
         let n1 = n0 as *const libc::c_void;
         let n2 = n1 as usize;
+        uih = n2;
         unsafe { gvars.uip = n2; }
         eprintln!("uip integer {}", n2);
     }
@@ -277,6 +332,13 @@ fn mainui() -> Result<(),slint::PlatformError> {
         gco.lastmsg = format!("lastmsg-{}", i).into();
         uigetrom2lstmdl(uir, gco);    
     }
+    let _ = slint::invoke_from_event_loop( move || {
+        let mut msg = MessageUist::default();
+        msg.body = "hehehheinvoke_from_event_loop".into();
+        // uigetmsg2lstmdl(uir, msg);  // not works
+        dummy(uih, msg); // works
+
+    });
 
     // ui.global::<varfn>().on_isandroid(|| {
     //     eprintln!("magic operation input: {}, os {}", 123, std::env::consts::OS);
