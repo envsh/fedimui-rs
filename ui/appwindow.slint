@@ -1,4 +1,4 @@
-import { Button, VerticalBox, GridBox, CheckBox, ComboBox, Switch, Spinner, LineEdit, ListView, AboutSlint, ProgressIndicator, SpinBox, HorizontalBox, StandardListView, TabWidget, GroupBox, StandardButton, TextEdit } from "std-widgets.slint";
+import { Button, VerticalBox, GridBox, CheckBox, ComboBox, Switch, Spinner, LineEdit, ListView, AboutSlint, ProgressIndicator, SpinBox, HorizontalBox, StandardListView, TabWidget, GroupBox, StandardButton, TextEdit, StandardTableView } from "std-widgets.slint";
 
 export global varfn {
     in-out property <string> usericon;
@@ -345,6 +345,58 @@ component stackwidget inherits Rectangle {
     // ]
 }
 
+component testiii {
+    tw := TabWidget {
+        padding: 1px;
+        visible: false;
+        // y: root.y - 50px;
+
+        // Tab {stackwidget{}}
+
+        tb0 := Tab {
+            padding: 1px;
+            title: "000";
+
+            VerticalLayout {
+                padding: 1px;
+            // LineEdit {}
+            // LineEdit {}
+                // if varfn.isandroid() == 1:  RoomListAndUserInfoui{}
+                RoomListAndUserInfoui{}
+            }
+        }
+        Tab {
+            title: "111";
+            // message list 主窗口
+            VerticalLayout {
+                padding: 0px;
+                MessageListHeadui {
+                    // msgcnt: messages.length;
+                }
+                ListView {
+                    padding: 0px;
+                    // for v in root.messages : 
+                    // MessageListItemui {
+                    //     msgchan:  v[0];
+                    // }
+                    
+                }
+                MessageListTailui {}
+            }
+        }
+        Tab {
+            title: "222";
+            Button {text: "sssss";}
+        }
+        // Tab {
+        //     title: "333";
+        //     Button {text: "sssss";}
+        // }
+        
+    }
+
+}
+
 // macos cupertino, android material, other fluent
 // cosmic 还可以，看看不能用在android上。
 // slint的 material 是设计的最差的。
@@ -358,6 +410,10 @@ export component AppWindow inherits Window {
     in property <[[string]]> rooms;
     in property <[string]> columns;
     in property <[[string]]> messages;
+    
+    private property <bool> stkrlui2: false;
+    private property <string> curpage: "none";
+    private property <string> lastpage: "none";
 
     callback justrunafunc();
 
@@ -369,9 +425,26 @@ export component AppWindow inherits Window {
             Button {text: "jjj";}
             Button {text: "jjj";}
             HSpacer {}
-            Button {text: "jjj";}
-            Button {text: "jjj";}
-            Button {text: "jjj";}
+            Button {text: "RLUI";
+            clicked => {
+                curpage = "rlstui2";
+                switchstack();
+            }
+
+        }
+
+        Button {text: "MSGLST";
+            clicked => {
+                curpage = "msglst";
+                switchstack();
+            }
+        }
+        Button {text: "ABUI";
+        clicked => {
+            curpage = "aboutui";
+            switchstack();
+        }
+        }
         }
     
     lo1 := HorizontalLayout {
@@ -389,63 +462,65 @@ export component AppWindow inherits Window {
             moved => {
                 // self.x = min(parent.width - self.width, max(400px, self.x + self.mouse-x - self.pressed-x));
                 self.x = min(lo1.width - self.width, max(100px, self.x + self.mouse-x - self.pressed-x));
-                tw.x = self.x;
-                tw.width = lo1.width - self.x;
-                rlstui.width = self.x;
-                // tw.width = tw.width - self.mouse-x;
-                // self.x = 286px+self.mouse-x;
+                // tw.x = self.x;
+                // tw.width = lo1.width - self.x;
+                // rlstui.width = self.x;
             }
         }
     }
+
+    // stack widget
+    stkwin := Rectangle {
+        min-width: 150px;
+        min-height: 50px;
+        // width: parent.width - lo1.width;
+        horizontal-stretch: 0.85;
+        vertical-stretch: 0.85;
+
+        // TextInput {text: "iiiiiiiii";}
+        // StandardButton {kind: cancel;}
+        // GroupBox {
+        //     visible: false;
+        //     CheckBox {text: "chkkk";}
+        // }
+
         
-
-        tw := TabWidget {
-            padding: 1px;
-            // y: root.y - 50px;
-
-            // Tab {stackwidget{}}
-
-            tb0 := Tab {
-                padding: 1px;
-                title: "000";
-
-                VerticalLayout {
-                    padding: 1px;
-                // LineEdit {}
-                // LineEdit {}
-                    // if varfn.isandroid() == 1:  RoomListAndUserInfoui{}
-                    RoomListAndUserInfoui{}
+        // if varfn.isandroid() == 1:  RoomListAndUserInfoui{}
+        if varfn.isandroid() == 1: RoomListAndUserInfoui{
+            // visible <=> root.stkrlui2;
+            states [
+                s1 when root.stkrlui2 == true : {
+                    visible: true;
+                } s2 when root.stkrlui2 == false : {
+                    visible: false;
                 }
-            }
-            Tab {
-                title: "111";
-                // message list 主窗口
-                VerticalLayout {
-                    padding: 0px;
-                    MessageListHeadui {
-                        msgcnt: messages.length;
-                    }
-                    ListView {
-                        padding: 0px;
-                        for v in root.messages : 
-                        MessageListItemui {
-                            msgchan:  v[0];
-                        }
-                        
-                    }
-                    MessageListTailui {}
-                }
-            }
-            Tab {
-                title: "222";
-                Button {text: "sssss";}
-            }
-            // Tab {
-            //     title: "333";
-            //     Button {text: "sssss";}
-            // }
-            
+            ]    
         }
+
+        // right message list
+        rgtlo:= VerticalLayout {
+            visible: false;
+            padding: 0px;
+
+            // MessageListHeadui {
+            //     msgcnt: messages.length;
+            // }
+            ListView {
+                padding: 0px;
+                for v in root.messages : 
+                MessageListItemui {
+                    msgchan:  v[0];
+                }
+                
+            }
+            MessageListTailui {}
+        }
+
+        aboutui := GroupBox{
+            Button {text: "123";}
+        }
+    }
+
         
     }
 
@@ -461,13 +536,65 @@ export component AppWindow inherits Window {
 
     states [
         onosandroid when varfn.isandroid() == 1 : {
-            tw.current-index: 0;
+            // tw.current-index: 0;
         }
         onpc when varfn.isandroid() != 1 : {
-            tw.current-index: 1;
+            // tw.current-index: 1;
         }
+
+        // showaboutui when curpage == "aboutui" : {
+        //     aboutui.visible : true;
+        // }
     ]
 
+    // cannot
+    // private property <[Element]> name: [rgtlo];
+    function  hideallelems() {
+            // if rlstui2.visible == true {
+            //     rlstui2.visible = false;
+            // }
+        if rgtlo.visible == true {
+            rgtlo.visible = false;
+            lastpage = "msglst";
+        }
+        if stkrlui2 == true {
+            stkrlui2 = false;
+            lastpage = "rlstui2";
+        }
+
+
+        if aboutui.visible == true {
+            aboutui.visible = false;
+            lastpage = "aboutui";
+        }
+    }
+    function  switchstack() {
+        hideallelems();
+        debug("curpage", curpage, lastpage);
+        
+        // stkrlui2 = true;
+        if stkrlui2 == true {
+            // rlstui2.visible = true;
+        }else{
+            // rgtlo.visible = true;
+        }
+        if curpage == "msglst" {
+            rgtlo.visible = true;
+            //               rlstui2
+        } else if curpage == "rlstui2" {
+            if varfn.isandroid() == 1 {
+                stkrlui2 = true;
+            }else{
+                debug("want show rlstui2, but not android");
+                // curpage = lastpage;
+                // switchstack();
+            }
+        }else if curpage == "aboutui" {
+            aboutui.visible = true;
+        } else {
+
+        }
+    }
     init => {
         debug("AppWindow inited,"+varfn.isandroid());
         // if varfn.isandroid() != 1 {
@@ -477,6 +604,16 @@ export component AppWindow inherits Window {
         // }else{
         //     tw.current-index = 0;
         // }
+        if varfn.isandroid() == 1 {
+            stkrlui2 = true;
+            curpage = "rlstui2";
+        }else{
+            stkrlui2 = false;
+            curpage = "msglst";
+        }
+        // if varfn.isandroid() == 1 {
+
+        switchstack();
     }
 }
 
