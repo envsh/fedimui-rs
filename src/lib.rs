@@ -43,6 +43,20 @@ pub fn cstrfromu8ptr(ptr :*const u8, len: usize) -> &'static str {
  }
 
 
+
+ #[no_mangle]
+ pub extern "C" 
+ fn ffipxygocxrs_viastruct(cclen: usize, jscc : *const gostring) -> usize {
+
+    0
+ }
+
+ #[no_mangle]
+ pub extern "C" 
+ fn ffipxygocxrs_viajson(cclen: usize, jscc : *const gostring) -> SJResult<()> {
+    ffipxygocxrs(cclen, jscc)
+ }
+
  #[no_mangle]
  pub extern "C" 
  fn ffipxygocxrs(cclen: usize, jscc : *const gostring) -> SJResult<()> {

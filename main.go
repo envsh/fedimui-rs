@@ -11,11 +11,16 @@ import (
 	"github.com/kitech/gopp"
 )
 
+//go:generate goppgen nulogic cgo
+// what
+
 /*
 #include <stdint.h>
 
 extern void runui();
 extern void ffipxygocxrs(uintptr_t, uintptr_t);
+extern void ffipxygocxrs_viajson(uintptr_t, uintptr_t);
+extern void ffipxygocxrs_viastruct(uintptr_t, uintptr_t);
 extern void ffipxyrscxgoset(void*);
 extern void ffipxyrscxgo();
 extern void android_mainrs(void*);
@@ -33,14 +38,47 @@ func init() {
 	C.ffipxyrscxgoset(C.ffipxyrscxgo)
 }
 
-func ffipxygocxrswrap(v unsafe.Pointer) {
+func ffipxygocxrswrap(v vptr) {
 	var data = map[string]any{"cmd": "gosss测试1234$"}
 	bcc, err := json.Marshal(data)
 	gopp.ErrPrint(err)
 	var s = string(bcc)
-	var pp = uintptr(unsafe.Pointer(&s))
+	// var pp = uintptr(unsafe.Pointer(&s))
 	// gortpin.Pin(pp)
-	C.ffipxygocxrs(0, C.uintptr_t(pp))
+	C.ffipxygocxrs(0, anyptr2uptrc(&s))
+}
+
+// todo
+func ffipxygocxrs_viajson_wrap(v vptr) {
+	var data = map[string]any{"cmd": "gosss测试1234$"}
+	bcc, err := json.Marshal(data)
+	gopp.ErrPrint(err)
+	var s = string(bcc)
+	// var pp = uintptr(unsafe.Pointer(&s))
+	// gortpin.Pin(pp)
+	C.ffipxygocxrs(0, anyptr2uptrc(&s))
+}
+
+type ffixpassbyst struct {
+	cmd  *string
+	argc usize
+	arg0 *string
+	arg1 *string
+	arg2 *string
+	arg3 *string
+	arg4 *string
+	arg5 *string
+}
+
+// todo
+func ffipxygocxrs_viastruct_wrap(v vptr) {
+	var data = map[string]any{"cmd": "gosss测试1234$"}
+	bcc, err := json.Marshal(data)
+	gopp.ErrPrint(err)
+	var s = string(bcc)
+	// var pp = uintptr(unsafe.Pointer(&s))
+	// gortpin.Pin(pp)
+	C.ffipxygocxrs(0, anyptr2uptrc(&s))
 }
 
 func nonuimain() {
@@ -55,8 +93,9 @@ func nonuimain() {
 		obj := callpxyst{Cmd: "newmessage", Args: []string{fmt.Sprintf("msgfromgooo%d", i), "a1", "a2"}}
 		scc := gopp.JsonMarshalMust(obj)
 		log.Println(scc)
-		var pp = uintptr(unsafe.Pointer(&scc))
-		C.ffipxygocxrs(0, C.uintptr_t(pp))
+		// var pp = uintptr(unsafe.Pointer(&scc))
+		// C.ffipxygocxrs(0, C.uintptr_t(pp))
+		C.ffipxygocxrs(0, anyptr2uptrc(&scc))
 	}
 }
 
