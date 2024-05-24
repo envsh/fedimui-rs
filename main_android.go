@@ -6,7 +6,8 @@ import (
 )
 
 /*
- */
+extern void android_mainrs(void*);
+*/
 import "C"
 
 // https://developer.android.com/ndk/samples/sample_na?hl=zh-cn
@@ -28,5 +29,7 @@ func Java_com_ncorti_kotlin_template_app_NativeLib_sayHello() int {
 
 //export android_main
 func android_main(a unsafe.Pointer) {
-	C.android_mainrs(a)
+	go nonuimain()
+
+	C.android_mainrs(a) // loop forever here
 }

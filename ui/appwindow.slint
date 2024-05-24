@@ -470,10 +470,10 @@ export component AppWindow inherits Window {
             ListView {
                 padding: 0px;
             
-
                 for v in root.messages2 : 
+                // Text{text: v.body;} // 即使用简单控件，滚动时的CPU也是~100%
+                // 改成release编译效果不大，80-90%？？？
                 MessageListItemui {
-                    // msgchan:  v[0];
                     msgrec: v;
                 }
                 

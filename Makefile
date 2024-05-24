@@ -4,6 +4,7 @@ all: rs go
 
 rs:
 	cargo build
+# cargo build --release
 
 go:
 	go build
@@ -14,7 +15,7 @@ goso:
 	cd appgo && go build -o ../mainapp.so -buildmode=c-shared
 
 ####### see app/buildandroid.sh
-andso:
+andgo:
 	cd appgo && sh ./buildandroid.sh
 	$(NDKDIR)/bin/llvm-objdump -x ./fedimuigo.so |grep NEEDED
 	# cd app && GOOS=android GOARCH=arm64 CGO_ENABLED=1 go build -v -x -buildmode=c-shared
@@ -49,6 +50,8 @@ andapk:
 
 	cd kotlin-android-template/ && gradle build
 	ls -lh kotlin-android-template/app/build/outputs/apk/debug/
+
+andall: andrs andgo andapk
 
 andapk2:
 	# for rust cargo apk 

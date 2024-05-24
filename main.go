@@ -23,7 +23,6 @@ extern void ffipxygocxrs_viajson(uintptr_t, uintptr_t);
 extern void ffipxygocxrs_viastruct(uintptr_t, uintptr_t);
 extern void ffipxyrscxgoset(void*);
 extern void ffipxyrscxgo();
-extern void android_mainrs(void*);
 */
 import "C"
 
@@ -59,7 +58,7 @@ func ffipxygocxrs_viajson_wrap(v vptr) {
 	C.ffipxygocxrs(0, anyptr2uptrc(&s))
 }
 
-type ffixpassbyst struct {
+type ffipassbyst struct {
 	cmd  *string
 	argc usize
 	arg0 *string
@@ -86,9 +85,10 @@ func nonuimain() {
 		Cmd  string   `json:"cmd"`
 		Args []string `json:"args"`
 	}
+
 	for i := 0; i < 360; i++ {
 		// gopp.SleepSec(3)
-		gopp.SleepMs(300)
+		gopp.SleepMs(100)
 		// time.Sleep(300*time.Millisecond)
 		obj := callpxyst{Cmd: "newmessage", Args: []string{fmt.Sprintf("msgfromgooo%d", i), "a1", "a2"}}
 		scc := gopp.JsonMarshalMust(obj)
@@ -111,6 +111,11 @@ func Main() {
 	// gopp.Forever()
 	C.runui() // forever loop
 }
+
+/*
+在android上listwidget滚动也是CPU 100%，360条的时候
+剩下的唯一一个优势就是占用内存小，是几个跨平台中最小的
+*/
 
 /*
 docssssssss
