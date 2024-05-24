@@ -12,6 +12,10 @@ use std::rc::Rc;
 use serde_json::{Result as SJResult, Value as SJValue};
 // use serde_json::Value;
 
+// ?????
+// slint listwidget CPU 100%
+// 随便滚动鼠标，CPU 50%
+
 slint::include_modules!();
 
 

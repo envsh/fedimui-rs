@@ -343,6 +343,10 @@ component RoomListAndUserInfoui inherits Rectangle {
         }
 }
 
+// 提高 listview 的效率，使用 virtual dom 的方式
+component mylistview inherits Rectangle {
+    in-out property <[MessageUist]> messages2: []; 
+}
 
 // macos cupertino, android material, other fluent
 // cosmic 还可以，看看不能用在android上。
@@ -467,6 +471,9 @@ export component AppWindow inherits Window {
             MessageListHeadui {
                 msgcnt: messages2.length;
             }
+            // mylistview {
+            //     messages2: root.messages2;
+            // }
             ListView {
                 padding: 0px;
             
@@ -474,9 +481,8 @@ export component AppWindow inherits Window {
                 // Text{text: v.body;} // 即使用简单控件，滚动时的CPU也是~100%
                 // 改成release编译效果不大，80-90%？？？
                 MessageListItemui {
-                    msgrec: v;
-                }
-                
+                    // msgrec: v;
+                }   
             }
             MessageListTailui {}
         }
