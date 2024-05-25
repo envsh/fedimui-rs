@@ -360,7 +360,7 @@ export component AppWindow inherits Window {
 
     in-out property <[[string]]> rooms : [];
     in-out property <[string]> columns ;
-    in-out property <[[string]]> messages ;
+    in property <[[string]]> messages ;
     in-out property <[GroupchatUist]> rooms2: [];
     in-out property <[MessageUist]> messages2: [];
     
@@ -370,8 +370,9 @@ export component AppWindow inherits Window {
 
     callback justrunafunc();
 
+    // 初始化的值太多，编译用内存特别大，1000以内
     columns: ["111", "222", "333"];
-    messages: [["ffff"],["gggggg"], ["hhhhhhh"], ["iiiiiii"], ["jjjjjjjj"], ["kkkkkkkk"], ["lllllllll"],["mmmmmmmm"],["nnnnnnnnnn"],["gggggg"], ["hhhhhhh"], ["iiiiiii"], ["jjjjjjjj"], ["kkkkkkkk"], ["lllllllll"],["mmmmmmmm"],["nnnnnnnnnn"],["gggggg"], ["hhhhhhh"], ["iiiiiii"], ["jjjjjjjj"], ["kkkkkkkk"], ["lllllllll"],["mmmmmmmm"],["nnnnnnnnnn"],["gggggg"], ["hhhhhhh"], ["iiiiiii"], ["jjjjjjjj"], ["kkkkkkkk"], ["lllllllll"],["mmmmmmmm"],["nnnnnnnnnn"]];
+    messages: [["ffff"],["gggggg"], ["hhhhhhh"], ["iiiiiii"], ["jjjjjjjj"], ["kkkkkkkk"], ["lllllllll"],["mmmmmmmm"],["nnnnnnnnnn"],["gggggg"], ["hhhhhhh"], ["iiiiiii"], ["jjjjjjjj"], ["kkkkkkkk"], ["lllllllll"],["mmmmmmmm"],["nnnnnnnnnn"],["gggggg"], ["hhhhhhh"], ["iiiiiii"], ["jjjjjjjj"], ["kkkkkkkk"], ["lllllllll"],["mmmmmmmm"],["nnnnnnnnnn"],["gggggg"], ["hhhhhhh"], ["iiiiiii"], ["jjjjjjjj"], ["kkkkkkkk"], ["lllllllll"],["mmmmmmmm"],["nnnnnnnnnn"],["gggggg"], ["hhhhhhh"]];
 
     padding: 0px;
     // width: 800px; // android上不能设置
@@ -471,6 +472,9 @@ export component AppWindow inherits Window {
             MessageListHeadui {
                 msgcnt: messages2.length;
             }
+            //ListView {
+                // for v in root.messages : Text{text: v[0];} // 即使用简单控件，滚动时的CPU也是~100%
+            //}
             // mylistview {
             //     messages2: root.messages2;
             // }
@@ -478,10 +482,11 @@ export component AppWindow inherits Window {
                 padding: 0px;
             
                 for v in root.messages2 : 
-                // Text{text: v.body;} // 即使用简单控件，滚动时的CPU也是~100%
+             //    Text{text: v.body;} // 即使用简单控件，滚动时的CPU也是~100%
                 // 改成release编译效果不大，80-90%？？？
+                // 改成release编译效果不大，70-90%？？？
                 MessageListItemui {
-                    // msgrec: v;
+                     msgrec: v;
                 }   
             }
             MessageListTailui {}

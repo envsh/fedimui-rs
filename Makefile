@@ -2,9 +2,10 @@ NDKDIR=/usr/local/Caskroom/android-ndk/26d/AndroidNDK11579264.app/Contents/NDK/t
 
 all: rs go
 
-rs:
+rsd:
 	cargo build
-# cargo build --release
+rsr:
+	cargo build --release
 
 go:
 	go build

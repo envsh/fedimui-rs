@@ -1,0 +1,8 @@
+$ du -hs target/*
+4.0K    target/CACHEDIR.TAG
+1.0G    target/aarch64-linux-android
+279M    target/arm-linux-androideabi
+615M    target/armv7-linux-androideabi
+4.0K    target/cargo-apk-temp-extra-link-libraries
+3.9G    target/debug
+2.4G    target/release

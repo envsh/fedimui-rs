@@ -86,7 +86,10 @@ func nonuimain() {
 		Args []string `json:"args"`
 	}
 
-	for i := 0; i < 360; i++ {
+	for i := 0; i < 160; i++ {
+		if true {
+			// break
+		}
 		// gopp.SleepSec(3)
 		gopp.SleepMs(100)
 		// time.Sleep(300*time.Millisecond)
